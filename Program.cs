@@ -102,9 +102,12 @@ namespace slp_ez
                 //Console.WriteLine("");
                 trigger = skaiciai.Minimizuoti();
             }
-            for (int i = 0; i < skaiciai.n; i++)
+            using (var fr = File.CreateText("..//..//output.txt"))
             {
-                Console.WriteLine(skaiciai.Skaityti(i));
+                for (int i = 0; i < skaiciai.n; i++)
+                {
+                    fr.WriteLine(skaiciai.Skaityti(i));
+                }
             }
 
         }
