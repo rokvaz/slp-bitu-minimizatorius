@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("slp ez")]
+[assembly: AssemblyTitle("slp-bitu-minifikatorius")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("slp ez")]
+[assembly: AssemblyProduct("slp-bitu-minifikatorius")]
 [assembly: AssemblyCopyright("Copyright ©  2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d36b396f-b45a-4814-a41e-c097e0092c17")]
+[assembly: Guid("a0c34bac-88a2-40b8-a35e-05a7fc5a76fa")]
 
 // Version information for an assembly consists of the following four values:
 //
