@@ -127,7 +127,7 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.richTextBox1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "SLP spargalke or smth like that";
             this.ResumeLayout(false);
             this.PerformLayout();
 
