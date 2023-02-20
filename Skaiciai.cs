@@ -37,6 +37,35 @@ namespace slp_bitu_minifikatorius
             }
             n--;
         }
+        public int Mini2()
+        {
+            int trigger = 0;
+            for(int i=0;i<n;i++)
+            {
+                int test = 0;
+                for (int l = 0; l < n; l++)
+                {
+                    int tmp = FindGoodDif(dvej[i], dvej[l]);
+                    if(tmp>-1)
+                    {
+                        test++;
+                        minitxt = minitxt + String.Format("{0} su {1} ({2} + {3}) ", dvej[i], dvej[l], ogsk[i], ogsk[l]);
+                        StringBuilder laikinas = new StringBuilder(dvej[l]);
+                        ogsk[l] = string.Format("({0} + {1})", ogsk[i], ogsk[l]);
+                        laikinas[tmp] = '-';
+                        dvej[l] = laikinas.ToString();
+                        minitxt = minitxt + string.Format("= {0}", dvej[l]) + "\n";
+                        trigger++;
+                    }
+                }
+                if (test > 0)
+                {
+                    Istrinti(i);
+                    i--;
+                }
+            }
+            return trigger;
+        }
         public int Minimizuoti()
         {
             int trigger = 0;

@@ -7,6 +7,7 @@ namespace slp_bitu_minifikatorius
     {
         Skaiciai skaiciai;
         Lentele lentele;
+        int algoritmas = 0;
         public Form1()
         {
             InitializeComponent();
@@ -20,14 +21,14 @@ namespace slp_bitu_minifikatorius
         private void button1_Click(object sender, EventArgs e)
         {
             // Convert.ToString(input, 2).PadLeft(6, '0')
-            skaiciai = ReadToBit(textBox1.Text);
+            skaiciai = ReadToBit(textBox1.Text,6);
             richTextBox1.Text = "";
             for (int i = 0; i < skaiciai.n; i++)
             {
                 richTextBox1.Text = richTextBox1.Text + skaiciai.Skaityti(i) + " (" + skaiciai.ogsk[i] + ")" + "\n";
             }
         }
-        static Skaiciai ReadToBit(string line)
+        static Skaiciai ReadToBit(string line, int pad)
         {
             Skaiciai skaiciai = new Skaiciai();
             if (line.Length > 0)
@@ -35,7 +36,7 @@ namespace slp_bitu_minifikatorius
                 string[] parts = line.Split(',');
                 for (int i = 0; i < parts.Length; i++)
                 {
-                    skaiciai.Deti(Convert.ToString(int.Parse(parts[i]), 2).PadLeft(6, '0'), parts[i]);
+                    skaiciai.Deti(Convert.ToString(int.Parse(parts[i]), 2).PadLeft(pad, '0'), parts[i]);
                 }
             }
             return skaiciai;
@@ -44,7 +45,7 @@ namespace slp_bitu_minifikatorius
         private void button2_Click(object sender, EventArgs e)
         {
             // pain
-            skaiciai = ReadToBit(textBox1.Text);
+            skaiciai = ReadToBit(textBox1.Text,6);
             lentele = WriteToTable(skaiciai);
             PrintTable(richTextBox1, lentele);
         }
@@ -87,8 +88,9 @@ namespace slp_bitu_minifikatorius
 
         private void button3_Click(object sender, EventArgs e)
         {
-            skaiciai = ReadToBit(textBox1.Text);
-            int kiekis = minifikacijafast(ref skaiciai);
+            algoritmas = 0;
+            skaiciai = ReadToBit(textBox1.Text,6);
+            int kiekis = minifikacijafast(ref skaiciai,algoritmas);
             richTextBox1.Text = String.Format("Minifikacija atlikta {0} kartu/s", kiekis) + "\n";
             for (int i = 0; i < skaiciai.n; i++)
             {
@@ -97,23 +99,31 @@ namespace slp_bitu_minifikatorius
 
         }
 
-        static int minifikacijafast(ref Skaiciai skaiciai)
+        static int minifikacijafast(ref Skaiciai skaiciai, int algoritmas)
         {
-            int trigger = skaiciai.Minimizuoti();
+            int trigger;
+            if (algoritmas == 0)
+                trigger = skaiciai.Minimizuoti();
+            else
+                trigger = skaiciai.Mini2();
             int kiekis = trigger;
             while (trigger != 0)
             {
                 //Console.WriteLine("");
-                trigger = skaiciai.Minimizuoti();
-                kiekis=kiekis+trigger;
+                if (algoritmas == 0)
+                    trigger = skaiciai.Minimizuoti();
+                else
+                    trigger = skaiciai.Mini2();
+                kiekis =kiekis+trigger;
             }
             return kiekis;
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            skaiciai = ReadToBit(textBox1.Text);
-            int kiekis = minifikacijafast(ref skaiciai);
+            algoritmas = 0;
+            skaiciai = ReadToBit(textBox1.Text,6);
+            int kiekis = minifikacijafast(ref skaiciai,algoritmas);
             richTextBox1.Text = skaiciai.minitxt;
             richTextBox1.Text = richTextBox1.Text + "\n";
             richTextBox1.Text = richTextBox1.Text + String.Format("Minifikacija atlikta {0} karta/us", kiekis) + "\n";
@@ -121,6 +131,55 @@ namespace slp_bitu_minifikatorius
             {
                 richTextBox1.Text = richTextBox1.Text + skaiciai.Skaityti(i) + "\n";
             }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            // readbits
+            algoritmas = 0;
+            Skaiciai skaiciai = new Skaiciai();
+            if (textBox1.Text.Length > 0)
+            {
+                string[] parts = textBox1.Text.Split(' ');
+                for (int i = 0; i < parts.Length; i++)
+                {
+                    skaiciai.Deti(parts[i],"-1");
+                }
+            }
+            int kiekis = minifikacijafast(ref skaiciai,algoritmas);
+            richTextBox1.Text = String.Format("Minifikacija atlikta {0} kartu/s", kiekis) + "\n";
+            for (int i = 0; i < skaiciai.n; i++)
+            {
+                richTextBox1.Text = richTextBox1.Text + skaiciai.Skaityti(i) + "\n";
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            algoritmas = 1;
+            skaiciai = ReadToBit(textBox1.Text, 6);
+            int kiekis = minifikacijafast(ref skaiciai,algoritmas);
+            richTextBox1.Text = String.Format("Minifikacija atlikta {0} kartu/s", kiekis) + "\n";
+            for (int i = 0; i < skaiciai.n; i++)
+            {
+                richTextBox1.Text = richTextBox1.Text + skaiciai.Skaityti(i) + "\n";
+            }
+            algoritmas = 0;
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            algoritmas = 1;
+            skaiciai = ReadToBit(textBox1.Text, 6);
+            int kiekis = minifikacijafast(ref skaiciai,algoritmas);
+            richTextBox1.Text = skaiciai.minitxt;
+            richTextBox1.Text = richTextBox1.Text + "\n";
+            richTextBox1.Text = richTextBox1.Text + String.Format("Minifikacija atlikta {0} karta/us", kiekis) + "\n";
+            for (int i = 0; i < skaiciai.n; i++)
+            {
+                richTextBox1.Text = richTextBox1.Text + skaiciai.Skaityti(i) + "\n";
+            }
+            algoritmas = 0;
         }
     }
 }
